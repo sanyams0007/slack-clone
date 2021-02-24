@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarOption from "./SidebarOption";
 import styled from "styled-components";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import {
   Add,
@@ -17,8 +17,10 @@ import {
   InsertComment,
   PeopleAlt,
 } from "@material-ui/icons/";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Sidebar = () => {
+  const [user] = useAuthState(auth);
   const [channels, loading, error] = useCollection(db.collection("rooms"));
   return (
     <SidebarContainer>
@@ -27,7 +29,7 @@ const Sidebar = () => {
           <h2>ADULT BAND MUSIC</h2>
           <h3>
             <FiberManualRecord />
-            Sanyam Suthar
+            {user.displayName}
           </h3>
         </SidebarInfo>
         <Create />
